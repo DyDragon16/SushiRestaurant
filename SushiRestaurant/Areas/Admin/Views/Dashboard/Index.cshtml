@@ -1,0 +1,158 @@
+﻿@using System.Globalization;
+@model List<Reservation>
+@* @using HASRestaurant.Context; *@
+@{
+    ViewBag.Title = "Index";
+}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+@* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link href="~/assets/css/bootstrap.min.css" rel="stylesheet"> *@
+<link href="~/admin/assests/css/manager.css" rel="stylesheet" />
+<style>
+    .datewidth {
+        width: 100px;
+    }
+
+    table.table tr th:last-child {
+        width: auto;
+    }
+
+    table.table tr th:first-child {
+        width: auto;
+    }
+</style>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        <div class="row m-t-25">
+            <div class="col-sm-6 col-lg-3">
+                <div class="overview-item overview-item--c1">
+                    <div class="overview__inner">
+                        <div class="overview-box clearfix">
+                            <div class="icon">
+                                <i class="zmdi zmdi-account-o"></i>
+                            </div>
+                            <div class="text">
+                              
+                                <h2>@ViewBag.countReservation</h2>
+                                <span>Số lượng bàn đẵ đặt</span>
+                            </div>
+                        </div>
+                        <div class="overview-chart">
+                            <canvas id="widgetChart1"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="overview-item overview-item--c2">
+                    <div class="overview__inner">
+                        <div class="overview-box clearfix">
+                            <div class="icon">
+                                <i class="zmdi zmdi-shopping-cart"></i>
+                            </div>
+                            <div class="text">
+                               
+                                <h2>@ViewBag.itemSolid</h2>
+                                <span>Số sản phẩm đã bán</span>
+                            </div>
+                        </div>
+                        <div class="overview-chart">
+                            <canvas id="widgetChart2"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="overview-item overview-item--c3">
+                    <div class="overview__inner">
+                        <div class="overview-box clearfix">
+                            <div class="icon">
+                                <i class="zmdi zmdi-calendar-note"></i>
+                            </div>
+                            <div class="text">
+                             
+                                <h2>@ViewBag.countProduct</h2>
+                                <span>Sản phẩm</span>
+                            </div>
+                        </div>
+                        <div class="overview-chart">
+                            <canvas id="widgetChart3"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="overview-item overview-item--c4">
+                    <div class="overview__inner">
+                        <div class="overview-box clearfix">
+                            <div class="icon">
+                                <i class="zmdi zmdi-money"></i>
+                            </div>
+                            <div class="text">
+                         
+                                <h2>@ViewBag.totalEarning?.ToString("F3")đ</h2>
+                                <span>Tổng doanh thu</span>
+                            </div>
+                        </div>
+                        <div class="overview-chart">
+                            <canvas id="widgetChart4"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- table---------------------------------------------------------------------- -->
+        @using (Html.BeginForm("Search", "Dashboard", FormMethod.Post))
+        {
+            <div class="selectWeek">
+                <label for="week">Select a week:</label>
+                <input type="week" id="week" name="week" value="@ViewBag.CurrentWeek" required>
+
+                <button type="submit" class="btn btn-success">Search</button>
+            </div>
+        }
+        <div>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th></th> <!-- Ô trống cho cột đầu tiên -->
+                        @for (DateTime date = ViewBag.StartDate; date < ViewBag.StartDate.AddDays(7); date = date.AddDays(1))
+                        {
+                            <th>@date.ToString("dd/MM/yyyy")</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int hour = 9; hour <= 22; hour += 1)
+                    {
+                        <tr>
+                            <th>@hour:00</th> <!-- Thời gian theo giờ -->
+                            @for (DateTime date = ViewBag.StartDate; date < ViewBag.StartDate.AddDays(7); date = date.AddDays(1))
+                            {
+                                List<Reservation> reservationsAtHour = Model.Where(r => r.Time.Hours == hour && r.ReservationDate.Date == date.Date).ToList();
+                                <td>
+                                    @foreach (var reservation in reservationsAtHour)
+                                    {
+                                        <div>
+                                            <a asp-area="Admin" asp-controller="Reservation" asp-action="Detail" asp-route-id="@reservation.ReservationId" class="btn btn-success btn-lg">@reservation.CustomerName</a>
+
+                                        </div>
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>

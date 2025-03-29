@@ -1,0 +1,19 @@
+# Loại trừ file appsettings.json cụ thể
+appsettings.json
+appsettings.Development.json
+
+# Loại trừ tất cả các file appsettings.json ở bất kỳ thư mục nào
+**/appsettings.json
+**/appsettings.Development.json
+
+# Loại trừ thư mục bin và obj
+bin/
+obj/
+
+# Loại trừ các file build
+*.dll
+*.pdb
+*.exe
+
+# Loại trừ file cấu hình cụ thể của người dùng
+*.user

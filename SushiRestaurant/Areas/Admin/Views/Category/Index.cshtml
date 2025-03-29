@@ -1,0 +1,89 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model IPagedList<Category>
+@{
+	ViewBag.Title = "Index";
+}
+<partial name="_Notification" />
+<style>
+	.listright {
+		margin-left: 273px;
+	}
+
+		.listright h2 {
+			margin-bottom: 20px;
+		}
+
+	td img {
+		width: 60px;
+		height: 60px;
+	}
+
+/* 	.listright p a {
+		color: #ffffff;
+		background-color: #fb5849;
+		padding: 10px;
+	}
+
+		.listright p a:hover {
+			background-color: #ff0000;
+			color: #ffffff;
+		}
+
+	.listright td a:hover {
+		color: #ff0000;
+	} */
+
+</style>
+<div class="listright">
+	<h2>Manager Category</h2>
+
+	<p>
+		<a asp-area="Admin" asp-controller="Category" asp-action="Create" class="btn btn-primary text-secondary">Create New</a>
+	</p>
+	<table class="table">
+		<tr>
+			<th>
+				Id
+			</th>
+			<th>
+				Category Name
+			</th>
+			<th>
+				Image
+			</th>
+			<th></th>
+		</tr>
+
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.CategoryId)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.CategoryName)
+				</td>
+				<td>
+					<img src="~/images/categories/@item.Image" />
+				</td>
+				<td>
+					<a asp-area="Admin" asp-controller="Category" asp-action="Detail" asp-route-id="@item.CategoryId" class="fas fa-file-alt"></a>  |
+					<a asp-area="Admin" asp-controller="Category" asp-action="Edit" asp-route-id="@item.CategoryId" class="fas fa-pen"></a> | 
+					@if (item.Products.Count == 0)
+					{
+						<a asp-area="Admin" asp-controller="Category" asp-action="Delete" asp-route-id="@item.CategoryId" class="fas fa-trash-alt"></a>
+					}
+				</td>
+			</tr>
+		}
+
+	</table>
+	@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+			new X.PagedList.Mvc.Core.PagedListRenderOptions
+	{
+		ContainerDivClasses = new[] { "navigation" },
+		LiElementClasses = new[] { "page-item" },
+		PageClasses = new[] { "page-link" }
+	})
+</div>

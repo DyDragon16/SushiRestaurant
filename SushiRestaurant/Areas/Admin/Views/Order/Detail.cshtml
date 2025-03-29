@@ -1,0 +1,62 @@
+﻿@model Order
+@{
+    ViewBag.Title = "Detail";
+}
+<style>
+    th {
+        background-color: #fb5849;
+    }
+
+    .listright {
+        margin-left: 273px;
+    }
+
+    h5 {
+        float: right;
+        margin-right: 50px;
+    }
+</style>
+
+<div class="listright">
+    <h2>Order Detail</h2>
+    <h5>
+        @Html.ActionLink("Back to List", "Index")
+    </h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">
+                    Product Name
+                </th>
+                <th scope="col">Image</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">
+                    Unit Price
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderDetails)
+            {
+                <tr>
+                    <td scope="row">
+                        <p class="mb-0 mt-4">@item.Product.ProductName</p>
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img src="~/images/products/@item.Product.Image" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
+                        </div>
+                    </td>
+                    <td>
+                        <p class="mb-0 mt-4">@item.Quantity</p>
+                    </td>
+                    <td>
+                        <p class="mb-0 mt-4">@(string.Format("{0:0.00}", item.UnitPrice))</p>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+

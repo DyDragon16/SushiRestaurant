@@ -1,0 +1,110 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model IPagedList<Product>
+@{
+	ViewBag.Title = "Index";
+}
+<partial name="_Notification" />
+<style>
+	.listright {
+		margin-left: 273px;
+	}
+
+		.listright h2 {
+			margin-bottom: 20px;
+		}
+
+	td img {
+		width: 60px;
+		height: 60px;
+	}
+
+/* 	.listright p a {
+		color: #ffffff;
+		background-color: #fb5849;
+		padding: 10px;
+	} */
+
+/* 		.listright p a:hover {
+			background-color: #ff0000;
+			color: #ffffff;
+		} */
+/* 
+	.listright td a:hover {
+		color: #ff0000;
+	} */
+
+</style>
+<div class="listright">
+	<h2>Manager Product</h2>
+
+	<p>
+		<a asp-area="Admin" asp-controller="Product" asp-action="Create" class="btn btn-primary text-secondary">Create New</a>
+	</p>
+	<table class="table">
+		<tr>
+			<th>
+				ProductName
+			</th>
+			<th>
+				Price
+			</th>
+			<th>
+				Quantity
+			</th>
+			<th>
+				ShortDes
+			</th>
+			<th>
+				Description
+			</th>
+			<th>
+				Image
+			</th>
+			<th>
+				Category
+			</th>
+			<th></th>
+		</tr>
+
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.ProductName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Price)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Quantity)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.ShortDes)
+				</td>
+				<td>
+					@Html.Raw(item.Description)
+				</td>
+				<td>
+					<img src="~/images/products/@item.Image" />
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Category.CategoryName)
+				</td>
+				<td>
+					<a asp-area="Admin" asp-controller="Product" asp-action="Detail" asp-route-id="@item.ProductId" class="fas fa-file-alt"></a>  |
+					<a asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-id="@item.ProductId" class="fas fa-pen"></a> |
+					<a asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-id="@item.ProductId" class="fas fa-trash-alt"></a>
+				</td>
+			</tr>
+		}
+
+	</table>
+	@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+			new X.PagedList.Mvc.Core.PagedListRenderOptions
+	{
+		ContainerDivClasses = new[] { "navigation" },
+		LiElementClasses = new[] { "page-item" },
+		PageClasses = new[] { "page-link" }
+	})
+</div>

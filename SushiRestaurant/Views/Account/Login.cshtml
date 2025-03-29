@@ -1,0 +1,87 @@
+﻿@model Account
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+@* <form asp-controller="Account" asp-action="Login" method="post" class="form-signin">
+    <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign in</h1>
+    @Html.AntiForgeryToken()
+    @Html.ValidationMessage("Error", new { @class = "text-danger" })
+    @{
+        if (TempData["success"] != null)
+        {
+            <p class="text-success">@TempData["success"]</p>
+        }
+    }
+
+    <input type="email" asp-for="Email" class="form-control" placeholder="Email"/>
+    <span asp-validation-for="Email" class="text-danger"></span>
+
+    <input type="password" asp-for="Password" class="form-control" placeholder="Password"/>
+    <span asp-validation-for="Password" class="text-danger"></span>
+
+    <a asp-controller="Account" asp-action="ForgotPassword">Forgot Password?</a>
+
+    <button class="btn btn-warning btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Sign in</button>
+    <hr>
+    <a asp-controller="Account" asp-action="Register" class="btn btn-dark btn-block" type="button" id="btn-signup">Sign up New Account</a>
+</form> *@
+<section class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                     class="img-fluid" alt="Sample image">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <form asp-controller="Account" asp-action="Login" method="post">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationMessage("Error", new { @class = "text-danger" })
+                    @{
+                        if (TempData["success"] != null)
+                        {
+                            <p class="text-success">@TempData["success"]</p>
+                        }
+                    }
+                    <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+                    </div>
+                    <!-- Email input -->
+                    <div data-mdb-input-init class="form-outline mb-4">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <input type="email" id="form3Example3" class="form-control form-control-lg"
+                               placeholder="Enter a valid email address" asp-for="Email" autofocus />
+                        <label class="form-label" for="form3Example3">Email address</label>
+                    </div>
+
+                    <!-- Password input -->
+                    <div data-mdb-input-init class="form-outline mb-3">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <input type="password" id="form3Example4" class="form-control form-control-lg"
+                               placeholder="Enter password" asp-for="Password" />
+                        <label class="form-label" for="form3Example4">Password</label>
+                    </div>
+
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg text-secondary"
+                                style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                            Login
+                        </button>
+                        <a href="@Url.Action("GoogleLogin", "Account")" class="btn btn-danger btn-lg text-white" style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                            <i class="fab fa-google"></i><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Login with Google
+                        </a>
+@*                         <div class="text-center text-lg-start mt-4 pt-2">
+                            <a href="@Url.Action("GoogleLogin", "Account")" class="btn btn-danger btn-lg text-white" style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                                <i class="fab fa-google"></i> Sign in with Google
+                            </a>
+                        </div> *@
+                        <p class="small fw-bold mt-2 pt-1 mb-0">
+                            Don't have an account? <a asp-controller="Account" asp-action="Register"
+                                                      class="link-danger">Register</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

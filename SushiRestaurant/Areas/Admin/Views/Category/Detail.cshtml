@@ -1,0 +1,38 @@
+﻿@model Category
+
+@{
+    ViewBag.Title = "Detail";
+}
+<style>
+    .listright {
+        margin-left: 273px;
+    }
+</style>
+<div class="listright">
+    <h2>Category Detail</h2>
+
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CategoryName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Image)
+            </dt>
+
+            <dd>
+                <img src="~/images/categories/@Html.DisplayFor(model => model.Image)" />
+            </dd>
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.CategoryId }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>
